@@ -84,7 +84,7 @@ export const products: Product[] = [
     isNew: true,
     description: 'Classic Stashman design in cool blue',
     brand: 'FAR OUT',
-    inStock: true,
+    inStock: false,
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   {
@@ -96,7 +96,7 @@ export const products: Product[] = [
     isNew: true,
     description: 'Vibrant pink Stashman design',
     brand: 'FAR OUT',
-    inStock: true,
+    inStock: false,
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   {
@@ -108,7 +108,7 @@ export const products: Product[] = [
     isNew: true,
     description: 'Deep purple Stashman design',
     brand: 'FAR OUT',
-    inStock: true,
+    inStock: false,
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   {
@@ -120,7 +120,7 @@ export const products: Product[] = [
     isNew: true,
     description: 'Professional grade skateboard deck',
     brand: 'FAR OUT Pro',
-    inStock: true,
+    inStock: false,
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   
