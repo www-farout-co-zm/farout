@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCart } from '@/contexts/CartContext';
+
 import { ProductImageHover } from './ProductImageHover';
 import { Product } from '@/app/data/products';
 import ImageViewer from '@/app/components/ui/ImageViewer';
@@ -13,7 +13,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
+
   const [isHovered, setIsHovered] = useState(false);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
@@ -24,14 +24,19 @@ export function ProductCard({ product }: ProductCardProps) {
     }
   }, [product]);
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+
+
+  const handleContactWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart(product, 1);
+    const whatsappNumber = '+1234567890'; // Replace with your WhatsApp Business number
+    const message = `Hi, I'm interested in the ${product.name} (Product ID: ${product.id}). Is it available?`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleImageClick = (e: React.MouseEvent) => {
-    if (product.id === 3) { 
+    if (product.id === 3 || product.id === 18) { 
       setIsViewerOpen(true);
     }
   };
@@ -49,7 +54,7 @@ export function ProductCard({ product }: ProductCardProps) {
             aria-label={`View ${product.name}`}
             onClick={handleImageClick}
           >
-            <div className="aspect-[3/4] overflow-hidden bg-gray-100">
+            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
               {product.imageUrl ? (
                 <ProductImageHover
                   src={product.imageUrl}
@@ -71,7 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="block"
             aria-label={`View ${product.name}`}
           >
-            <div className="aspect-[3/4] overflow-hidden bg-gray-100">
+            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
               {product.imageUrl ? (
                 <ProductImageHover
                   src={product.imageUrl}
@@ -91,10 +96,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
-            className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
-            onClick={handleAddToCart}
+            className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors text-sm px-4 py-2"
+            onClick={handleContactWhatsApp}
           >
-            Add to Cart
+            Contact via WhatsApp
           </button>
         </div>
 
@@ -119,27 +124,17 @@ export function ProductCard({ product }: ProductCardProps) {
         </h3>
         <p className="mt-1 text-sm text-gray-500">{product.description}</p>
 
-        {/* Color Swatches for Stashman Decks */}
-        {product.colors && [4, 5, 6].includes(product.id) && (
-          <div className="flex justify-center mt-4 space-x-2">
-            {product.colors.map((color) => (
-              <div
-                key={color}
-                className={`w-6 h-6 rounded-full cursor-pointer border-2 ${selectedColor === color ? 'border-black' : 'border-gray-300'}`}
-                style={{ backgroundColor: color }}
-                onClick={() => setSelectedColor(color)}
-              ></div>
-            ))}
-          </div>
-        )}
+
       </div>
 
-      {product.id === 3 && isViewerOpen && (
+      {isViewerOpen && (
         <ImageViewer
-          src="/sakura.jpg"
+          src={product.id === 3 ? "/sakura.jpg" : product.id === 18 ? "/skate-tools.jpg" : ""} // Use specific image for Skate Tools
           alt={`${product.name} - Full View`}
           isOpen={isViewerOpen}
           onClose={() => setIsViewerOpen(false)}
+          title={product.name} // Pass product name as title
+          status={product.id === 18 ? "OUT OF STOCK" : product.id === 3 ? "COMING SOON" : ""} // Pass specific status for Skate Tools
         />
       )}
     </div>

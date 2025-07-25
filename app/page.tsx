@@ -4,6 +4,7 @@ import { products } from '@/app/data/products';
 
 export default function Home() {
   const deckProducts = products.filter(product => product.category === 'Decks');
+  const accessoryProducts = products.filter(product => product.category === 'Accessories');
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center py-12">
@@ -15,6 +16,22 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-12 text-center">FAR-OUT DECKS</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
         {deckProducts.map(product => (
+          <div key={product.id} className="flex flex-col items-center text-center">
+            <ProductCard product={product} />
+            <p className="mt-2 font-semibold text-lg">{product.name}</p>
+            {product.status && (
+              <p className={`text-sm font-medium ${product.status === 'Out of Stock' ? 'text-red-500' : 'text-orange-500'}`}>
+                {product.status}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Accessories Section */}
+      <h1 className="text-4xl font-bold mt-12 mb-12 text-center">FAR-OUT ACCESSORIES</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+        {accessoryProducts.map(product => (
           <div key={product.id} className="flex flex-col items-center text-center">
             <ProductCard product={product} />
             <p className="mt-2 font-semibold text-lg">{product.name}</p>

@@ -29,9 +29,9 @@ const productImages = [
   '/ngosa-skull.jpg',
   '/psilocybin.jpg',
   '/sakura.jpg',
-  '/stashman-blue.jpg',
-  '/stashman-pink.jpg',
-  '/stashman-purple.jpg'
+  '/stashman-blue-nobutton.jpg',
+  '/stashman-pink-nobutton.jpg',
+  '/stashman-purple-nobuttons.jpg'
 ];
 
 export const products: Product[] = [
@@ -79,7 +79,7 @@ export const products: Product[] = [
     id: 4,
     name: 'Stashman Blue Deck',
     price: 0,
-    imageUrl: productImages[3],
+    imageUrl: '/stashman-blue-nobutton.jpg',
     category: 'Decks',
     isNew: true,
     description: 'Classic Stashman design in cool blue',
@@ -92,7 +92,7 @@ export const products: Product[] = [
     id: 5,
     name: 'Stashman Pink Deck',
     price: 0,
-    imageUrl: productImages[4],
+    imageUrl: '/stashman-pink-nobutton.jpg',
     category: 'Decks',
     isNew: true,
     description: 'Vibrant pink Stashman design',
@@ -105,7 +105,7 @@ export const products: Product[] = [
     id: 6,
     name: 'Stashman Purple Deck',
     price: 0,
-    imageUrl: productImages[5],
+    imageUrl: '/stashman-purple-nobuttons.jpg',
     category: 'Decks',
     isNew: true,
     description: 'Deep purple Stashman design',
@@ -249,40 +249,52 @@ export const products: Product[] = [
 
   // Accessories
   {
-    id: 4,
-    name: 'Snapback Cap - Black',
-    price: 24.99,
-    imageUrl: '/placeholder-cap.jpg',
-    category: 'Accessories',
-    isNew: true,
-    description: 'Classic snapback with embroidered logo',
-    brand: 'FAR OUT',
-    inStock: true,
-    colors: ['Black', 'White', 'Gray', 'Navy']
-  },
-  {
-    id: 15,
-    name: 'Skate Backpack',
-    price: 49.99,
-    imageUrl: '/placeholder-backpack.jpg',
-    category: 'Accessories',
-    isNew: true,
-    description: 'Durable backpack with skateboard straps',
-    brand: 'FAR OUT',
-    inStock: true,
-    colors: ['Black', 'Gray', 'Camo']
-  },
-  {
-    id: 16,
-    name: 'Grip Tape',
-    price: 12.99,
-    imageUrl: '/placeholder-grip.jpg',
+    id: 18,
+    name: 'Skate Tools',
+    price: 0,
+    imageUrl: '/placeholder-skate-tools.jpg',
     category: 'Accessories',
     isNew: false,
-    description: 'Professional grade grip tape',
+    description: 'Essential tools for skateboard assembly and maintenance',
     brand: 'FAR OUT',
-    inStock: true,
-    colors: ['Black', 'Clear']
+    inStock: false,
+    status: 'Out of Stock'
+  },
+  {
+    id: 19,
+    name: 'Nuts & Bolts',
+    price: 0,
+    imageUrl: '/placeholder-nuts-bolts.jpg',
+    category: 'Accessories',
+    isNew: false,
+    description: 'Hardware for mounting trucks to your deck',
+    brand: 'FAR OUT',
+    inStock: false,
+    status: 'Out of Stock'
+  },
+  {
+    id: 20,
+    name: 'Griptape',
+    price: 0,
+    imageUrl: '/placeholder-griptape.jpg',
+    category: 'Accessories',
+    isNew: false,
+    description: 'High-quality adhesive griptape for maximum board control',
+    brand: 'FAR OUT',
+    inStock: false,
+    status: 'Coming Soon'
+  },
+  {
+    id: 21,
+    name: 'Bearings',
+    price: 0,
+    imageUrl: '/placeholder-bearings-new.jpg',
+    category: 'Accessories',
+    isNew: false,
+    description: 'Precision bearings for a smooth and fast ride',
+    brand: 'FAR OUT',
+    inStock: false,
+    status: 'Coming Soon'
   }
 ];
 

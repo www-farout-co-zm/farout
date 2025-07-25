@@ -8,9 +8,11 @@ interface ImageViewerProps {
   alt: string;
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
+  status?: string;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ src, alt, isOpen, onClose }) => {
+const ImageViewer: React.FC<ImageViewerProps> = ({ src, alt, isOpen, onClose, title, status }) => {
   if (!isOpen) return null;
 
   return (
@@ -25,7 +27,9 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ src, alt, isOpen, onClose }) 
         >
           &times;
         </button>
+        {title && <h2 className="text-white text-4xl font-bold mb-4 text-center uppercase tracking-wider">{title}</h2>}
         <Image src={src} alt={alt} layout="intrinsic" width={800} height={600} objectFit="contain" />
+        {status && <p className="text-red-500 text-3xl font-bold mt-4 text-center uppercase tracking-wider">{status}</p>}
       </div>
     </div>
   );

@@ -19,16 +19,9 @@ export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
   productId,
 }) => {
   const [mounted, setMounted] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(src);
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    if (productId && [4, 5, 6].includes(productId) && selectedColor) {
-      setCurrentSrc(`/stashman-${selectedColor}.jpg`);
-    } else {
-      setCurrentSrc(src);
-    }
-  }, [selectedColor, productId, src]);
+  const [currentSrc, setCurrentSrc] = useState(src);
 
   useEffect(() => {
     setMounted(true);
@@ -41,48 +34,50 @@ export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
         alt={alt}
         layout="fill"
         objectFit="contain"
-        className="w-full h-full object-contain"
+        className="object-contain object-top"
       />
     );
   }
 
+  // Handle Sakura deck separately
   if (isSakura) {
-    const displayImageSrc = isHovered ? '/sakura-coming-soon.jpg' : src;
     return (
       <div 
         className="relative w-full h-full cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {isSakura && isHovered ? (
-          <Image
-            src="/sakura-coming-soon.jpg"
-            alt="Sakura Coming Soon"
-            layout="fill"
-            objectFit="contain"
-            className="transition-opacity duration-300"
-          />
-        ) : productId && [4, 5, 6].includes(productId) ? (
-          <Image
-            src={currentSrc}
-            alt={alt}
-            layout="fill"
-            objectFit="contain"
-            className="transition-opacity duration-300"
-          />
-        ) : (
-          <Image
-            src={displayImageSrc}
-            alt={alt}
-            layout="fill"
-            objectFit="contain"
-            className="w-full h-full object-contain transition-all duration-300"
-          />
-        )}
+        <Image
+          src={isHovered ? '/sakura-coming-soon.jpg' : src}
+          alt={alt}
+          layout="fill"
+          objectFit="contain"
+          className="object-contain object-top transition-all duration-300"
+        />
       </div>
     );
   }
 
+  // Handle Stashman decks (product IDs 4, 5, 6) with color selection
+  if (productId && [4, 5, 6].includes(productId)) {
+    return (
+      <div 
+        className="w-full h-full"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Image
+          src={currentSrc} // Use currentSrc for Stashman decks
+          alt={alt}
+          layout="fill"
+          objectFit="contain"
+          className={`object-contain object-top transition-transform duration-300 ${isHovered ? 'scale-105' : ''}`}
+        />
+      </div>
+    );
+  }
+
+  // Handle all other products
   return (
     <div 
       className="w-full h-full"
@@ -94,7 +89,7 @@ export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
         alt={alt}
         layout="fill"
         objectFit="contain"
-        className={`w-full h-full object-contain transition-transform duration-300 ${isHovered ? 'scale-105' : ''}`}
+        className={`object-contain object-top transition-transform duration-300 ${isHovered ? 'scale-105' : ''}`}
       />
     </div>
   );
