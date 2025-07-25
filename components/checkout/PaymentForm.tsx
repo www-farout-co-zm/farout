@@ -7,11 +7,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/ca
 import { CreditCard, Lock } from 'lucide-react';
 
 interface PaymentFormProps {
-  formData: any;
+  formData: {
+    paymentMethod: string;
+    cardNumber: string;
+    cardName: string;
+    cardExpiry: string;
+    cardCvc: string;
+  };
   onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onPaymentComplete: (paymentData: { cardNumber: string; expiryDate: string; cvv: string; cardholderName: string }) => void;
+  isProcessing?: boolean;
 }
 
-export default function PaymentForm({ formData, onInputChange }: PaymentFormProps) {
+export default function PaymentForm({ formData, onInputChange, onPaymentComplete, isProcessing }: PaymentFormProps) {
   const paymentMethods = [
     { id: 'credit-card', label: 'Credit / Debit Card', icon: <CreditCard className="w-5 h-5" /> },
     { id: 'paypal', label: 'PayPal', icon: <span className="text-blue-600 font-bold">PayPal</span> },
@@ -118,9 +126,9 @@ export default function PaymentForm({ formData, onInputChange }: PaymentFormProp
       
       {formData.paymentMethod === 'paypal' && (
         <div className="bg-blue-50 border border-blue-100 rounded-lg p-6 text-center">
-          <p className="mb-4">You'll be redirected to PayPal to complete your purchase securely.</p>
+          <p className="mb-4">You&#39;ll be redirected to PayPal to complete your purchase securely.</p>
           <div className="text-sm text-gray-600">
-            After clicking "Continue to Review", you'll be redirected to PayPal to complete your purchase securely.
+            After clicking &quot;Continue to Review&quot;, you&#39;ll be redirected to PayPal to complete your purchase securely.
           </div>
         </div>
       )}
@@ -129,7 +137,7 @@ export default function PaymentForm({ formData, onInputChange }: PaymentFormProp
         <div className="bg-black/5 border border-gray-200 rounded-lg p-6 text-center">
           <p className="mb-4">Complete your purchase with Apple Pay</p>
           <div className="text-sm text-gray-600">
-            After clicking "Continue to Review", you'll be prompted to complete your purchase with Apple Pay.
+            After clicking &quot;Continue to Review&quot;, you&#39;ll be prompted to complete your purchase with Apple Pay.
           </div>
         </div>
       )}

@@ -4,8 +4,33 @@ import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Checkbox } from '@/app/components/ui/checkbox';
 
+interface CheckoutFormData {
+  email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  apartment?: string;
+  city: string;
+  country: string;
+  state: string;
+  zipCode: string;
+  saveInfo: boolean;
+  shippingSameAsBilling: boolean;
+  shippingAddress: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    apartment?: string;
+    city: string;
+    country: string;
+    state: string;
+    zipCode: string;
+  };
+}
+
 interface CheckoutFormProps {
-  formData: any;
+  formData: CheckoutFormData;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   step: 'customer' | 'shipping';
 }

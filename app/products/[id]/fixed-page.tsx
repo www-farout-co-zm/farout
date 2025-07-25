@@ -2,17 +2,15 @@ import { notFound } from 'next/navigation';
 import { products } from '@/app/data/products';
 import { ProductPageContent } from './ProductPageContent';
 
-// Use the exact Next.js 15.4.2 pattern
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  // Await the params
-  const { id } = await params;
-  
+// Simple type for params
+interface PageParams {
+  id: string;
+}
+
+// Main page component
+export default function Page({ params }: { params: PageParams }) {
   // Find the product by ID
-  const product = products.find((p) => p.id.toString() === id);
+  const product = products.find((p) => p.id.toString() === params.id);
   
   if (!product) {
     notFound();

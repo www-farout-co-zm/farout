@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearch } from '@/hooks/useSearch';
 import { Search as SearchIcon, X } from 'lucide-react';
+import Image from 'next/image';
 import { Product } from '@/app/data/products';
 import Link from 'next/link';
 import { routes } from '@/app/utils/navigation';
@@ -112,10 +113,12 @@ export function SearchBar({ className = '', onSearch }: SearchBarProps) {
                 >
                   <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded border border-gray-200">
                     {product.imageUrl ? (
-                      <img
+                      <Image
                         src={product.imageUrl}
                         alt={product.name}
                         className="h-full w-full object-cover"
+                        width={40}
+                        height={40}
                       />
                     ) : (
                       <div className="h-full w-full bg-gray-100" />
@@ -133,13 +136,13 @@ export function SearchBar({ className = '', onSearch }: SearchBarProps) {
                   className="block text-center text-sm font-medium text-gray-900 hover:text-gray-600"
                   onClick={() => setIsFocused(false)}
                 >
-                  View all results for "{inputValue}"
+                  View all results for &quot;{inputValue}&quot;
                 </Link>
               </div>
             </div>
           ) : inputValue ? (
             <div className="p-4 text-center text-sm text-gray-500">
-              No products found for "{inputValue}"
+              No products found for &quot;{inputValue}&quot;
             </div>
           ) : null}
         </div>

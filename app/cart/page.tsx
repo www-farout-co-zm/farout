@@ -7,7 +7,7 @@ import { ShoppingCartIcon } from '@/app/components/ui/ShoppingCartIcon';
 import { CartItem } from '@/app/components/cart/CartItem';
 
 export default function CartPage() {
-  const { items, removeFromCart, updateQuantity, cartTotal, itemCount } = useCart();
+  const { items, removeFromCart, updateQuantity, itemCount } = useCart();
 
   if (items.length === 0) {
     return (
@@ -17,7 +17,8 @@ export default function CartPage() {
             <ShoppingCartIcon className="w-full h-full" />
           </div>
           <h1 className="text-2xl font-bold mb-2">Your cart is empty</h1>
-          <p className="text-gray-600 mb-8">Looks like you haven't added anything to your cart yet.</p>
+          <p className="text-gray-500">{'Your cart\u0027s empty'}</p>
+          <p className="text-gray-600 mb-8">{'Looks like you haven\u0027t added anything to your cart yet.'}</p>
           <Link href="/shop">
             <Button>Continue Shopping</Button>
           </Link>

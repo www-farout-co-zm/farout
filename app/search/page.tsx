@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Product } from '@/app/data/products';
 import ProductCard from '@/app/components/products/ProductCard';
@@ -8,6 +8,14 @@ import { Button } from '@/app/components/ui/button';
 import { SearchBar } from '@/components/search/SearchBar';
 
 export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Loading search results...</div>}>
+      <SearchPageContent />
+    </Suspense>
+  );
+}
+
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const [results, setResults] = useState<Product[]>([]);
@@ -45,7 +53,7 @@ export default function SearchPage() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="text-2xl font-bold mb-4">Searching for "{query}"</h1>
+          <h2 className="text-2xl font-bold mb-4">Search Results for &quot;{query}&quot;</h2>
           <p className="text-gray-600">Loading results...</p>
         </div>
       </div>
@@ -73,21 +81,22 @@ export default function SearchPage() {
       {query ? (
         <>
           <h1 className="text-2xl font-bold mb-6">
-            {results.length} {results.length === 1 ? 'result' : 'results'} for "{query}"
+            {results.length} {results.length === 1 ? 'result' : 'results'} for {"\""}{query}{"\""}
           </h1>
 
           {results.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {results.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id}
+                  product={product}
+                />
               ))}
             </div>
           ) : (
             <div className="text-center py-12">
-              <h2 className="text-xl font-medium text-gray-900 mb-2">No results found</h2>
-              <p className="text-gray-600 mb-6">
-                We couldn't find any products matching "{query}". Try different keywords.
-              </p>
+              <h2 className="text-2xl font-bold mb-4">No products found for &quot;{query}&quot;</h2>
+              <p className="text-gray-600 mb-8">Try adjusting your search terms or browse our categories.</p>
               <Button asChild>
                 <a href="/shop">Browse All Products</a>
               </Button>
@@ -98,7 +107,7 @@ export default function SearchPage() {
         <div className="text-center py-12">
           <h2 className="text-xl font-medium text-gray-900 mb-2">Search for products</h2>
           <p className="text-gray-600 mb-6">
-            Enter keywords to find the products you're looking for.
+            Enter keywords to find the products you&#39;re looking for.
           </p>
         </div>
       )}

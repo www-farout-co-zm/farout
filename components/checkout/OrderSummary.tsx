@@ -1,15 +1,25 @@
+import React from 'react';
 import { Button } from '@/app/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
 
-interface OrderSummaryProps {
-  items?: any[]; // Optional items prop for flexibility
+interface OrderItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
 }
 
-export default function OrderSummary({ items: propItems }: OrderSummaryProps = {}) {
-  const { items: contextItems, itemCount, cartTotal } = useCart();
-  const items = propItems || contextItems;
+interface OrderSummaryProps {
+  items?: OrderItem[];
+  total?: number;
+}
+
+export default function OrderSummary({ items: propItems = [], total = 0 }: OrderSummaryProps) {
+  const { items: contextItems } = useCart();
+  const items = propItems.length > 0 ? propItems : contextItems;
   
   // Pricing information removed as per requirements
 

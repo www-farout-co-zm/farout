@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/app/components/ui/button';
 import { ShoppingCartIcon } from '@/app/components/ui/ShoppingCartIcon';
 
 export function CartPreview() {
-  const { items, itemCount, cartTotal } = useCart();
+  const { items, itemCount } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -84,10 +85,12 @@ export function CartPreview() {
               {items.map((item) => (
                 <div key={item.id} className="flex py-3 border-b border-gray-100">
                   <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                    <img
-                      src={item.imageUrl || '/placeholder-product.jpg'}
-                      alt={item.name}
-                      className="h-full w-full object-cover object-center"
+                    <Image 
+                      src={item.imageUrl || '/placeholder-product.jpg'} 
+                      alt={item.name} 
+                      width={64} 
+                      height={64} 
+                      className="object-cover rounded"
                     />
                   </div>
                   <div className="ml-3 flex-1">

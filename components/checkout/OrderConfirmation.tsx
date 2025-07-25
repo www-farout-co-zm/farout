@@ -52,7 +52,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
           Your order #{orderNumber} has been placed and is being processed.
         </p>
         <p className="text-gray-600 mb-8">
-          We've sent a confirmation email to <span className="font-medium">{email}</span> with your order details.
+          We&#39;ve sent a confirmation email to <span className="font-medium">{email}</span> with your order details.
         </p>
         
         <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -98,7 +98,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
           
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-sm text-gray-600">
-              Thank you for your order! We'll contact you shortly with pricing and shipping details.
+              Thank you for your order! We&#39;ll contact you shortly with pricing and shipping details.
             </p>
           </div>
         </div>
