@@ -1,4 +1,4 @@
-import ProductCard from '@/app/components/products/ProductCard';
+import { ProductCard } from '@/app/components/products/ProductCard';
 import LogoAnimation from '@/components/ui/LogoAnimation';
 import { products } from '@/app/data/products';
 

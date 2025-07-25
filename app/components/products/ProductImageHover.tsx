@@ -13,6 +13,7 @@ export function ProductImageHover({ src, alt, isSakura }: ProductImageHoverProps
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -30,30 +31,20 @@ export function ProductImageHover({ src, alt, isSakura }: ProductImageHoverProps
   }
 
   if (isSakura) {
+    const displayImageSrc = isHovered ? '/sakura-coming-soon.jpg' : src;
     return (
       <div 
-        className="relative w-full h-full"
+        className="relative w-full h-full cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className={`relative w-full h-full transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
-          <Image
-            src={src}
-            alt={alt}
-            width={500}
-            height={500}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className={`absolute inset-0 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-          <Image
-            src="/sakura-coming-soon.jpg"
-            alt={`${alt} - Coming Soon`}
-            width={500}
-            height={500}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Image
+          src={displayImageSrc}
+          alt={alt}
+          width={500}
+          height={500}
+          className="w-full h-full object-cover transition-all duration-300"
+        />
       </div>
     );
   }

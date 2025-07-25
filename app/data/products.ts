@@ -115,7 +115,7 @@ export const products: Product[] = [
     id: 9,
     name: 'Pro Model Deck',
     price: 64.99,
-    imageUrl: '/placeholder-deck-pro.jpg',
+    imageUrl: productImages[0],
     category: 'Decks',
     isNew: true,
     description: 'Professional grade skateboard deck',
@@ -152,7 +152,7 @@ export const products: Product[] = [
 
   // Wheels
   {
-    id: 3,
+    id: 17,
     name: 'Skate Wheels - 54mm',
     price: 39.99,
     imageUrl: '/placeholder-wheels.jpg',
