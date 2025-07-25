@@ -64,7 +64,7 @@ export default function LogoAnimation() {
   }
 
   return (
-    <div className="relative w-full h-full border-2 border-red-500">
+    <div className="relative w-full h-full">
       {logoFrames.map((src, index) => (
         <div 
           key={index}

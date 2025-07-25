@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
 import { ProductImageHover } from './ProductImageHover';
 import { Product } from '@/app/data/products';
-import ImageViewer from '@/components/ui/ImageViewer';
+import ImageViewer from '@/app/components/ui/ImageViewer';
 
 interface ProductCardProps {
   product: Product;
@@ -16,6 +16,13 @@ export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (product.colors && product.colors.length > 0 && [4, 5, 6].includes(product.id)) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,12 +49,14 @@ export function ProductCard({ product }: ProductCardProps) {
             aria-label={`View ${product.name}`}
             onClick={handleImageClick}
           >
-            <div className="aspect-square overflow-hidden bg-gray-100">
+            <div className="aspect-[3/4] overflow-hidden bg-gray-100">
               {product.imageUrl ? (
                 <ProductImageHover
                   src={product.imageUrl}
                   alt={product.name}
                   isSakura={product.id === 3}
+                  selectedColor={selectedColor}
+                  productId={product.id}
                 />
               ) : (
                 <div className="w-full h-full bg-gray-100 flex items-center justify-center">
@@ -62,12 +71,14 @@ export function ProductCard({ product }: ProductCardProps) {
             className="block"
             aria-label={`View ${product.name}`}
           >
-            <div className="aspect-square overflow-hidden bg-gray-100">
+            <div className="aspect-[3/4] overflow-hidden bg-gray-100">
               {product.imageUrl ? (
                 <ProductImageHover
                   src={product.imageUrl}
                   alt={product.name}
                   isSakura={product.id === 3}
+                  selectedColor={selectedColor}
+                  productId={product.id}
                 />
               ) : (
                 <div className="w-full h-full bg-gray-100 flex items-center justify-center">
@@ -107,6 +118,20 @@ export function ProductCard({ product }: ProductCardProps) {
           </Link>
         </h3>
         <p className="mt-1 text-sm text-gray-500">{product.description}</p>
+
+        {/* Color Swatches for Stashman Decks */}
+        {product.colors && [4, 5, 6].includes(product.id) && (
+          <div className="flex justify-center mt-4 space-x-2">
+            {product.colors.map((color) => (
+              <div
+                key={color}
+                className={`w-6 h-6 rounded-full cursor-pointer border-2 ${selectedColor === color ? 'border-black' : 'border-gray-300'}`}
+                style={{ backgroundColor: color }}
+                onClick={() => setSelectedColor(color)}
+              ></div>
+            ))}
+          </div>
+        )}
       </div>
 
       {product.id === 3 && isViewerOpen && (

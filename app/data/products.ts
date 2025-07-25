@@ -85,7 +85,8 @@ export const products: Product[] = [
     description: 'Classic Stashman design in cool blue',
     brand: 'FAR OUT',
     inStock: false,
-    sizes: ['8.0"', '8.25"', '8.5"']
+    sizes: ['8.0"', '8.25"', '8.5"'],
+    colors: ['blue', 'pink', 'purple']
   },
   {
     id: 5,
@@ -97,7 +98,8 @@ export const products: Product[] = [
     description: 'Vibrant pink Stashman design',
     brand: 'FAR OUT',
     inStock: false,
-    sizes: ['8.0"', '8.25"', '8.5"']
+    sizes: ['8.0"', '8.25"', '8.5"'],
+    colors: ['blue', 'pink', 'purple']
   },
   {
     id: 6,
@@ -109,20 +111,10 @@ export const products: Product[] = [
     description: 'Deep purple Stashman design',
     brand: 'FAR OUT',
     inStock: false,
-    sizes: ['8.0"', '8.25"', '8.5"']
+    sizes: ['8.0"', '8.25"', '8.5"'],
+    colors: ['blue', 'pink', 'purple']
   },
-  {
-    id: 9,
-    name: 'Pro Model Deck',
-    price: 64.99,
-    imageUrl: productImages[0],
-    category: 'Decks',
-    isNew: true,
-    description: 'Professional grade skateboard deck',
-    brand: 'FAR OUT Pro',
-    inStock: false,
-    sizes: ['8.0"', '8.25"', '8.5"']
-  },
+
   
   // Trucks
   {

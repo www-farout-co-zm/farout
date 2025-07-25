@@ -7,12 +7,28 @@ interface ProductImageHoverProps {
   src: string;
   alt: string;
   isSakura: boolean;
+  selectedColor?: string;
+  productId?: number;
 }
 
-export function ProductImageHover({ src, alt, isSakura }: ProductImageHoverProps) {
+export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
+  src,
+  alt,
+  isSakura,
+  selectedColor,
+  productId,
+}) => {
   const [mounted, setMounted] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(src);
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    if (productId && [4, 5, 6].includes(productId) && selectedColor) {
+      setCurrentSrc(`/stashman-${selectedColor}.jpg`);
+    } else {
+      setCurrentSrc(src);
+    }
+  }, [selectedColor, productId, src]);
 
   useEffect(() => {
     setMounted(true);
@@ -23,9 +39,9 @@ export function ProductImageHover({ src, alt, isSakura }: ProductImageHoverProps
       <Image
         src={src}
         alt={alt}
-        width={500}
-        height={500}
-        className="w-full h-full object-cover"
+        layout="fill"
+        objectFit="contain"
+        className="w-full h-full object-contain"
       />
     );
   }
@@ -38,13 +54,31 @@ export function ProductImageHover({ src, alt, isSakura }: ProductImageHoverProps
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Image
-          src={displayImageSrc}
-          alt={alt}
-          width={500}
-          height={500}
-          className="w-full h-full object-cover transition-all duration-300"
-        />
+        {isSakura && isHovered ? (
+          <Image
+            src="/sakura-coming-soon.jpg"
+            alt="Sakura Coming Soon"
+            layout="fill"
+            objectFit="contain"
+            className="transition-opacity duration-300"
+          />
+        ) : productId && [4, 5, 6].includes(productId) ? (
+          <Image
+            src={currentSrc}
+            alt={alt}
+            layout="fill"
+            objectFit="contain"
+            className="transition-opacity duration-300"
+          />
+        ) : (
+          <Image
+            src={displayImageSrc}
+            alt={alt}
+            layout="fill"
+            objectFit="contain"
+            className="w-full h-full object-contain transition-all duration-300"
+          />
+        )}
       </div>
     );
   }
@@ -58,9 +92,9 @@ export function ProductImageHover({ src, alt, isSakura }: ProductImageHoverProps
       <Image
         src={src}
         alt={alt}
-        width={500}
-        height={500}
-        className={`w-full h-full object-cover transition-transform duration-300 ${isHovered ? 'scale-105' : ''}`}
+        layout="fill"
+        objectFit="contain"
+        className={`w-full h-full object-contain transition-transform duration-300 ${isHovered ? 'scale-105' : ''}`}
       />
     </div>
   );
