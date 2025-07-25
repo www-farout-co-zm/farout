@@ -10,6 +10,7 @@ export interface Product {
   inStock?: boolean;
   sizes?: string[];
   colors?: string[];
+  status?: 'Out of Stock' | 'Coming Soon';
 }
 
 export const categories = [
@@ -44,7 +45,8 @@ export const products: Product[] = [
     isNew: true,
     description: 'Limited edition deck featuring the iconic Ngosa Skull design',
     brand: 'FAR OUT',
-    inStock: true,
+    inStock: false,
+    status: 'Out of Stock',
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   {
@@ -56,7 +58,8 @@ export const products: Product[] = [
     isNew: true,
     description: 'Psychedelic inspired design for the true visionary',
     brand: 'FAR OUT',
-    inStock: true,
+    inStock: false,
+    status: 'Out of Stock',
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   {
@@ -68,7 +71,8 @@ export const products: Product[] = [
     isNew: true,
     description: 'Cherry blossom design with Japanese inspiration',
     brand: 'FAR OUT',
-    inStock: true,
+    inStock: false,
+    status: 'Coming Soon',
     sizes: ['8.0"', '8.25"', '8.5"']
   },
   {
