@@ -38,8 +38,8 @@ const LoadingScreen = () => {
         onClick={handleClick}
       >
         <Image
-          src="/logo.png" // Make sure to add your logo to the public folder
-          alt="FAR OUT Logo"
+          src="/farout-loading.jpg"
+          alt="FAR OUT Loading Screen"
           fill
           className="object-contain"
           priority
