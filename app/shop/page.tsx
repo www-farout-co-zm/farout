@@ -152,7 +152,6 @@ export default function ShopPage() {
                         {product.category}
                       </span>
                     )}
-                    {/* Add to Cart Button - Hidden until hover */}
                     <button 
                       className="opacity-0 group-hover:opacity-100 text-xs font-medium text-gray-900 hover:text-black transition-opacity duration-300"
                       onClick={(e) => {
@@ -162,7 +161,7 @@ export default function ShopPage() {
                         console.log('Add to cart:', product.id);
                       }}
                     >
-                      + Add to Cart
+
                     </button>
                   </div>
                 </div>

@@ -91,7 +91,7 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
 
             <div className="pt-4 border-t border-gray-200">
               <Button className="w-full py-6 text-base font-medium" disabled={!product.inStock}>
-                {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                {product.inStock ? 'Available' : 'Out of Stock'}
               </Button>
             </div>
           </div>
