@@ -77,15 +77,15 @@ export default function ShopPage() {
                 {/* Image Container with Hover Effect */}
                 <div className="relative aspect-square bg-white mb-3 overflow-hidden group">
                   <div className="relative w-full h-full flex items-center justify-center p-4">
-                    {product.imageUrl ? (
+                    {product.imageUrls && product.imageUrls.length > 0 ? (
                       <Image
-                        src={product.imageUrl}
+                        src={product.imageUrls[0]}
                         alt={product.name}
                         width={500}
                         height={500}
                         className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
                         onError={(e) => {
-                          console.error('Error loading product image:', product.imageUrl);
+                          console.error('Error loading product image:', product.imageUrls?.[0]);
                           const target = e.target as HTMLImageElement;
                           target.onerror = null;
                           target.src = '/logo.png';

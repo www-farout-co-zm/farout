@@ -112,9 +112,9 @@ export function SearchBar({ className = '', onSearch }: SearchBarProps) {
                   }}
                 >
                   <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded border border-gray-200">
-                    {product.imageUrl ? (
+                    {product.imageUrls && product.imageUrls.length > 0 ? (
                       <Image
-                        src={product.imageUrl}
+                        src={product.imageUrls[0]}
                         alt={product.name}
                         className="h-full w-full object-cover"
                         width={40}

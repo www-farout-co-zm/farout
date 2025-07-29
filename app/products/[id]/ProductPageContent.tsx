@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/app/components/ui/button';
+import { cn } from '@/lib/utils';
 import { ProductCard } from '@/app/components/products/ProductCard';
 import { Product } from '@/app/data/products';
 
@@ -13,40 +14,11 @@ interface ProductPageContentProps {
 }
 
 export function ProductPageContent({ product, relatedProducts }: ProductPageContentProps) {
-  // Check if this is the Sakura deck (ID: 3)
-  if (product.id === 3) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black p-4">
-        <div className="max-w-4xl w-full">
-          <div className="relative aspect-[4/3] bg-gray-900 rounded-lg overflow-hidden">
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">COMING SOON</h1>
-              <p className="text-xl text-gray-300 mb-8">The Sakura Deck Collection will be available soon</p>
-              <div className="w-full max-w-md mx-auto">
-                <div className="aspect-video bg-gray-800 rounded-lg mb-6 overflow-hidden">
-                  <Image
-                    src="/sakura.jpg"
-                    alt="Sakura Deck Preview"
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <Button 
-                  asChild 
-                  className="w-full bg-white text-black hover:bg-gray-200 transition-colors"
-                >
-                  <Link href="/shop">
-                    BACK TO SHOP
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const [selectedImage, setSelectedImage] = useState<string>(product.imageUrls?.[0] || '/placeholder-product.jpg');
+
+  useEffect(() => {
+    setSelectedImage(product.imageUrls?.[0] || '/placeholder-product.jpg');
+  }, [product]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -55,20 +27,53 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
         <div className="space-y-4">
           <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
             <Image
-              src={product.imageUrl || '/placeholder-product.jpg'}
+              src={selectedImage}
               alt={product.name}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
           </div>
-          <div className="grid grid-cols-4 gap-2">
-            {/* Thumbnails would go here */}
-            <div className="aspect-square bg-gray-200 rounded-md" />
-            <div className="aspect-square bg-gray-200 rounded-md" />
-            <div className="aspect-square bg-gray-200 rounded-md" />
-            <div className="aspect-square bg-gray-200 rounded-md" />
+          <div className="grid grid-cols-2 gap-2">
+            {product.imageUrls && product.imageUrls.length > 0 && (() => {
+              const imageUrls = product.imageUrls;
+              return (
+                <div
+                  className={cn(
+                    "relative aspect-square bg-gray-200 rounded-md cursor-pointer overflow-hidden",
+                    selectedImage === imageUrls[0] && "ring-2 ring-primary"
+                  )}
+                  onClick={() => setSelectedImage(imageUrls[0])}
+                >
+                  <Image
+                    src={imageUrls[0]}
+                    alt={`${product.name} - Front`}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              );
+            })()}
+            {product.imageUrls && product.imageUrls.length > 1 && (() => {
+              const imageUrls = product.imageUrls;
+              return (
+                <div
+                  className={cn(
+                    "relative aspect-square bg-gray-200 rounded-md cursor-pointer overflow-hidden",
+                    selectedImage === imageUrls[1] && "ring-2 ring-primary"
+                  )}
+                  onClick={() => setSelectedImage(imageUrls[1])}
+                >
+                  <Image
+                    src={imageUrls[1]}
+                    alt={`${product.name} - Back`}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              );
+            })()}
           </div>
         </div>
 
@@ -90,9 +95,21 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
             </div>
 
             <div className="pt-4 border-t border-gray-200">
-              <Button className="w-full py-6 text-base font-medium" disabled={!product.inStock}>
-                {product.inStock ? 'Available' : 'Out of Stock'}
-              </Button>
+              {product.inStock ? (
+                <Button asChild className="w-full py-6 text-base font-medium">
+                  <a 
+                    href={`https://wa.me/1234567890?text=I'm interested in your ${product.name} product.`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Inquire on WhatsApp
+                  </a>
+                </Button>
+              ) : (
+                <Button className="w-full py-6 text-base font-medium" disabled>
+                  Out of Stock
+                </Button>
+              )}
             </div>
           </div>
         </div>

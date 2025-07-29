@@ -55,9 +55,9 @@ export function ProductCard({ product }: ProductCardProps) {
             onClick={handleImageClick}
           >
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-              {product.imageUrl ? (
+              {product.imageUrls && product.imageUrls.length > 0 ? (
                 <ProductImageHover
-                  src={product.imageUrl}
+                  src={product.imageUrls[0]}
                   alt={product.name}
                   isSakura={product.id === 3}
                   selectedColor={selectedColor}
@@ -77,9 +77,9 @@ export function ProductCard({ product }: ProductCardProps) {
             aria-label={`View ${product.name}`}
           >
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-              {product.imageUrl ? (
+              {product.imageUrls && product.imageUrls.length > 0 ? (
                 <ProductImageHover
-                  src={product.imageUrl}
+                  src={product.imageUrls[0]}
                   alt={product.name}
                   isSakura={product.id === 3}
                   selectedColor={selectedColor}
