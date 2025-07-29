@@ -40,7 +40,7 @@ export const products: Product[] = [
     id: 1,
     name: 'Ngosa Skull Deck',
     price: 0, // Price removed as per user request
-    imageUrls: ['/ngosa-skull-front.jpg', '/ngosa-skull.jpg'],
+    imageUrls: ['/ngosa-skull.jpg', '/ngosa-skull-front.jpg'],
     category: 'Decks',
     isNew: true,
     description: 'Limited edition deck featuring the iconic Ngosa Skull design',
@@ -79,7 +79,7 @@ export const products: Product[] = [
     id: 4,
     name: 'Stashman Blue Deck',
     price: 0,
-    imageUrls: ['/stashman-front.jpg', '/stashman-blue-nobutton.jpg'],
+    imageUrls: ['/stashman-blue-nobutton.jpg', '/stashman-front.jpg'],
     category: 'Decks',
     isNew: true,
     description: 'Classic Stashman design in cool blue',
