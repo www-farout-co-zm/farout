@@ -26,16 +26,6 @@ export const categories = [
   { name: 'Accessories', slug: 'accessories' },
 ];
 
-// Product images array for easier management
-const productImages = [
-  '/ngosa-skull.jpg',
-  '/psilocybin.jpg',
-  '/sakura.jpg',
-  '/stashman-blue-nobutton.jpg',
-  '/stashman-pink-nobutton.jpg',
-  '/stashman-purple-nobuttons.jpg'
-];
-
 export const products: Product[] = [
   // Decks
   {

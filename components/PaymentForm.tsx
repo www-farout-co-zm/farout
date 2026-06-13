@@ -40,10 +40,20 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
     
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof PaymentFormValues, string>> = {};
-      result.error.errors.forEach((error) => {
-        const field = error.path[0] as keyof PaymentFormValues;
-        fieldErrors[field] = error.message;
+
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0];
+
+        if (
+          field === 'cardNumber' ||
+          field === 'expiryDate' ||
+          field === 'cvv' ||
+          field === 'cardholderName'
+        ) {
+          fieldErrors[field] = issue.message;
+        }
       });
+
       setErrors(fieldErrors);
       return;
     }

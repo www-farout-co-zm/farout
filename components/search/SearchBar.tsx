@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useSearch } from '@/hooks/useSearch';
 import { Search as SearchIcon, X } from 'lucide-react';
 import Image from 'next/image';
-import { Product } from '@/app/data/products';
 import Link from 'next/link';
 import { routes } from '@/app/utils/navigation';
 
@@ -101,35 +100,39 @@ export function SearchBar({ className = '', onSearch }: SearchBarProps) {
             </div>
           ) : results.length > 0 ? (
             <div className="py-1">
-              {results.map((product) => (
-                <Link
-                  key={product.id}
-                  href={routes.product(product.id.toString())}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                  onClick={() => {
-                    setInputValue('');
-                    setIsFocused(false);
-                  }}
-                >
-                  <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded border border-gray-200">
-                    {product.imageUrls && product.imageUrls.length > 0 ? (
-                      <Image
-                        src={product.imageUrls[0]}
-                        alt={product.name}
-                        className="h-full w-full object-cover"
-                        width={40}
-                        height={40}
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-gray-100" />
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate font-medium">{product.name}</div>
-                    <div className="text-gray-500">${product.price.toFixed(2)}</div>
-                  </div>
-                </Link>
-              ))}
+              {results.map((product) => {
+                const productImage = product.imageUrls?.[0];
+
+                return (
+                  <Link
+                    key={product.id}
+                    href={routes.product(product.id.toString())}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => {
+                      setInputValue('');
+                      setIsFocused(false);
+                    }}
+                  >
+                    <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded border border-gray-200">
+                      {productImage ? (
+                        <Image
+                          src={productImage}
+                          alt={product.name}
+                          className="h-full w-full object-cover"
+                          width={40}
+                          height={40}
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-gray-100" />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-medium">{product.name}</div>
+                      <div className="text-gray-500">${product.price.toFixed(2)}</div>
+                    </div>
+                  </Link>
+                );
+              })}
               <div className="border-t border-gray-100 px-4 py-2">
                 <Link
                   href={`/search?q=${encodeURIComponent(inputValue)}`}

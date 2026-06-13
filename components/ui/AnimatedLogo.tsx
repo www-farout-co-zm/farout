@@ -21,7 +21,7 @@ export default function AnimatedLogo() {
     }, 2000); // Change color every 2 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [colors.length]);
 
   return (
     <Link 

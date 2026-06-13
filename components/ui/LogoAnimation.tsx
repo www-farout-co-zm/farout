@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
 
 export default function LogoAnimation() {
@@ -10,7 +10,7 @@ export default function LogoAnimation() {
   const frameDuration = 1000; // 1 second per frame for smooth animation
 
   // Array of logo image paths - updated to include all 9 variations
-  const logoFrames = [
+  const logoFrames = useMemo(() => [
     '/logo-color-1.jpg',
     '/logo-color-2.jpg',
     '/logo-color-3.jpg',
@@ -20,7 +20,7 @@ export default function LogoAnimation() {
     '/logo-color-7.jpg',
     '/logo-color-8.jpg',
     '/logo-color-9.jpg',
-  ];
+  ], []);
 
   // Log when component mounts and unmounts
   useEffect(() => {
@@ -50,12 +50,12 @@ export default function LogoAnimation() {
       console.log('Clearing animation interval');
       clearInterval(interval);
     };
-  }, [totalFrames, frameDuration]);
+  }, [totalFrames, frameDuration, logoFrames]);
 
   // Log when frames change
   useEffect(() => {
     console.log(`Current frame: ${currentFrame + 1}/${totalFrames}`, logoFrames[currentFrame]);
-  }, [currentFrame]);
+  }, [currentFrame, logoFrames]);
 
   if (!isMounted) {
     return <div className="w-full h-full flex items-center justify-center">

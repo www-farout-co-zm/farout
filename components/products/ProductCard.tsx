@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { ProductImageHover } from './ProductImageHover';
@@ -13,16 +12,19 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-
-  const [isHovered, setIsHovered] = useState(false);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
+  const productImage = product.imageUrls?.[0];
+  const useImageViewer = product.useImageViewer ?? false;
+
   useEffect(() => {
-    if (product.colors && product.colors.length > 0) {
-      setSelectedColor(product.colors[0]);
+    const firstColor = product.colors?.[0];
+
+    if (firstColor) {
+      setSelectedColor(firstColor);
     }
-  }, [product]);
+  }, [product.colors]);
 
 
 
@@ -35,32 +37,30 @@ export function ProductCard({ product }: ProductCardProps) {
     window.open(whatsappUrl, '_blank');
   };
 
-  const handleImageClick = (e: React.MouseEvent) => {
-    if (product.useImageViewer) { 
+  const handleImageClick = () => {
+    if (useImageViewer) { 
       setIsViewerOpen(true);
     }
   };
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-lg border border-gray-200 bg-white transition-all hover:shadow-lg`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white transition-all hover:shadow-lg"
     >
       <div className="relative">
-        {product.useImageViewer ? (
+        {useImageViewer ? (
           <div
             className="block cursor-pointer"
             aria-label={`View ${product.name}`}
             onClick={handleImageClick}
           >
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-              {product.imageUrls && product.imageUrls.length > 0 ? (
+              {productImage ? (
                 <ProductImageHover
-                  src={product.imageUrls[0]}
+                  src={productImage}
                   alt={product.name}
-                  isSakura={product.useImageViewer}
-                  selectedColor={selectedColor}
+                  isSakura={useImageViewer}
+                  {...(selectedColor && { selectedColor })}
                   productId={product.id}
                 />
               ) : (
@@ -77,12 +77,12 @@ export function ProductCard({ product }: ProductCardProps) {
             aria-label={`View ${product.name}`}
           >
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-              {product.imageUrls && product.imageUrls.length > 0 ? (
+              {productImage ? (
                 <ProductImageHover
-                  src={product.imageUrls[0]}
+                  src={productImage}
                   alt={product.name}
-                  isSakura={product.useImageViewer}
-                  selectedColor={selectedColor}
+                  isSakura={useImageViewer}
+                  {...(selectedColor && { selectedColor })}
                   productId={product.id}
                 />
               ) : (
@@ -122,19 +122,19 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </Link>
         </h3>
-        <p className="mt-1 text-sm text-gray-500">{product.description}</p>
-
-
+        {product.description && (
+          <p className="mt-1 text-sm text-gray-500">{product.description}</p>
+        )}
       </div>
 
-      {isViewerOpen && (
+      {isViewerOpen && product.previewImage && (
         <ImageViewer
-          src={product.previewImage || ""}
+          src={product.previewImage}
           alt={`${product.name} - Full View`}
           isOpen={isViewerOpen}
           onClose={() => setIsViewerOpen(false)}
           title={product.name}
-          status={product.status || ""}
+          status={product.status ?? ''}
         />
       )}
     </div>

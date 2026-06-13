@@ -15,13 +15,10 @@ export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
   src,
   alt,
   isSakura,
-  selectedColor,
   productId,
 }) => {
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
-  const [currentSrc, setCurrentSrc] = useState(src);
 
   useEffect(() => {
     setMounted(true);
@@ -67,7 +64,7 @@ export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
         onMouseLeave={() => setIsHovered(false)}
       >
         <Image
-          src={currentSrc} // Use currentSrc for Stashman decks
+          src={src}
           alt={alt}
           layout="fill"
           objectFit="contain"

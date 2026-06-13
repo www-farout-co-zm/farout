@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ProductCard } from '@/components/products/ProductCard';
 import { Product } from '@/app/data/products';
+
+const PLACEHOLDER_IMAGE = '/placeholder-product.jpg';
 
 interface ProductPageContentProps {
   product: Product;
@@ -14,11 +15,16 @@ interface ProductPageContentProps {
 }
 
 export function ProductPageContent({ product, relatedProducts }: ProductPageContentProps) {
-  const [selectedImage, setSelectedImage] = useState<string>(product.imageUrls?.[0] || '/placeholder-product.jpg');
+  const [selectedImage, setSelectedImage] = useState<string>(
+    product.imageUrls?.[0] ?? PLACEHOLDER_IMAGE
+  );
 
   useEffect(() => {
-    setSelectedImage(product.imageUrls?.[0] || '/placeholder-product.jpg');
+    setSelectedImage(product.imageUrls?.[0] ?? PLACEHOLDER_IMAGE);
   }, [product]);
+
+  const frontImage = product.imageUrls?.[0];
+  const backImage = product.imageUrls?.[1];
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,44 +42,39 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
-            {product.imageUrls && product.imageUrls.length > 0 && (() => {
-              const imageUrls = product.imageUrls;
-              return (
-                <div
-                  className={cn(
-                    "relative aspect-square bg-gray-200 rounded-md cursor-pointer overflow-hidden",
-                    selectedImage === imageUrls[0] && "ring-2 ring-primary"
-                  )}
-                  onClick={() => setSelectedImage(imageUrls[0])}
-                >
-                  <Image
-                    src={imageUrls[0]}
-                    alt={`${product.name} - Front`}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              );
-            })()}
-            {product.imageUrls && product.imageUrls.length > 1 && (() => {
-              const imageUrls = product.imageUrls;
-              return (
-                <div
-                  className={cn(
-                    "relative aspect-square bg-gray-200 rounded-md cursor-pointer overflow-hidden",
-                    selectedImage === imageUrls[1] && "ring-2 ring-primary"
-                  )}
-                  onClick={() => setSelectedImage(imageUrls[1])}
-                >
-                  <Image
-                    src={imageUrls[1]}
-                    alt={`${product.name} - Back`}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              );
-            })()}
+            {frontImage && (
+              <div
+                className={cn(
+                  "relative aspect-square bg-gray-200 rounded-md cursor-pointer overflow-hidden",
+                  selectedImage === frontImage && "ring-2 ring-primary"
+                )}
+                onClick={() => setSelectedImage(frontImage)}
+              >
+                <Image
+                  src={frontImage}
+                  alt={`${product.name} - Front`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            )}
+
+            {backImage && (
+              <div
+                className={cn(
+                  "relative aspect-square bg-gray-200 rounded-md cursor-pointer overflow-hidden",
+                  selectedImage === backImage && "ring-2 ring-primary"
+                )}
+                onClick={() => setSelectedImage(backImage)}
+              >
+                <Image
+                  src={backImage}
+                  alt={`${product.name} - Back`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -81,15 +82,15 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold">{product.name}</h1>
-            <p className="text-lg text-gray-600 mt-2">{product.description || 'No description available.'}</p>
+            <p className="text-lg text-gray-600 mt-2">{product.description ?? 'No description available.'}</p>
           </div>
 
           <div className="space-y-4">
             <div>
               <h3 className="text-sm font-medium text-gray-900">Details</h3>
               <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                <li>Brand: {product.brand || 'N/A'}</li>
-                <li>Category: {product.category || 'N/A'}</li>
+                <li>Brand: {product.brand ?? 'N/A'}</li>
+                <li>Category: {product.category}</li>
                 <li>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</li>
               </ul>
             </div>
@@ -98,7 +99,7 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
               {product.inStock ? (
                 <Button asChild className="w-full py-6 text-base font-medium">
                   <a 
-                    href={`https://wa.me/260972662120?text=I'm interested in your ${product.name} product.`} 
+                    href={`https://wa.me/260972662120?text=${encodeURIComponent(`I'm interested in your ${product.name} product.`)}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                   >

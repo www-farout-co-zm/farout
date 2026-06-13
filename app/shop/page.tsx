@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { products, getProductsByCategory } from '../data/products';
+import { getProductsByCategory } from '../data/products';
 import { useCart } from '@/contexts/CartContext';
 
 const categories = [
@@ -121,94 +121,98 @@ export default function ShopPage() {
 
         {/* Products */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="group relative">
-              <Link href={`/products/${product.id}`} className="block">
-                {/* Image Container with Hover Effect */}
-                <div className="relative aspect-square bg-white mb-3 overflow-hidden group">
-                  <div className="relative w-full h-full flex items-center justify-center p-4">
-                    {product.imageUrls && product.imageUrls.length > 0 ? (
-                      <Image
-                        src={product.imageUrls[0]}
-                        alt={product.name}
-                        width={500}
-                        height={500}
-                        className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        onError={(e) => {
-                          console.error('Error loading product image:', product.imageUrls?.[0]);
-                          const target = e.target as HTMLImageElement;
-                          target.onerror = null;
-                          target.src = '/logo.png';
+          {filteredProducts.map((product) => {
+            const productImage = product.imageUrls?.[0];
+
+            return (
+              <div key={product.id} className="group relative">
+                <Link href={`/products/${product.id}`} className="block">
+                  {/* Image Container with Hover Effect */}
+                  <div className="relative aspect-square bg-white mb-3 overflow-hidden group">
+                    <div className="relative w-full h-full flex items-center justify-center p-4">
+                      {productImage ? (
+                        <Image
+                          src={productImage}
+                          alt={product.name}
+                          width={500}
+                          height={500}
+                          className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => {
+                            console.error('Error loading product image:', productImage);
+                            const target = e.target as HTMLImageElement;
+                            target.onerror = null;
+                            target.src = '/logo.png';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                          <span className="text-gray-400">No image</span>
+                        </div>
+                      )}
+                    </div>
+                    {/* Hover overlay with quick view */}
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <button 
+                        className="bg-white text-black px-4 py-2 text-xs font-medium tracking-wider uppercase"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log('Quick view:', product.id);
                         }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                        <span className="text-gray-400">No image</span>
+                      >
+                        Quick View
+                      </button>
+                    </div>
+                    {/* New Badge */}
+                    {product.isNew && (
+                      <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-sm">
+                        NEW
                       </div>
                     )}
                   </div>
-                  {/* Hover overlay with quick view */}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button 
-                      className="bg-white text-black px-4 py-2 text-xs font-medium tracking-wider uppercase"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('Quick view:', product.id);
-                      }}
-                    >
-                      Quick View
-                    </button>
-                  </div>
-                  {/* New Badge */}
-                  {product.isNew && (
-                    <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-sm">
-                      NEW
-                    </div>
-                  )}
-                </div>
-                
-                {/* Product Info */}
-                <div className="text-left p-1">
-                  <h3 className="text-sm font-medium text-gray-900 group-hover:text-black transition-colors">
-                    {product.brand || 'FAR OUT'}
-                  </h3>
-                  <p className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
-                    {product.name}
-                  </p>
-                  {product.description && (
-                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                      {product.description}
+                  
+                  {/* Product Info */}
+                  <div className="text-left p-1">
+                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-black transition-colors">
+                      {product.brand ?? 'FAR OUT'}
+                    </h3>
+                    <p className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
+                      {product.name}
                     </p>
-                  )}
-                  {/* Product Meta */}
-                  <div className="mt-2 flex items-center justify-between">
-                    {product.category && (
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">
-                        {product.category}
-                      </span>
+                    {product.description && (
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                        {product.description}
+                      </p>
                     )}
-                    <button 
-                      className="opacity-0 group-hover:opacity-100 text-xs font-medium text-gray-900 hover:text-black transition-opacity duration-300"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        addItem({
-                          id: product.id,
-                          name: product.name,
-                          price: product.price,
-                          image: product.imageUrls?.[0],
-                        });
-                      }}
-                      aria-label={`Add ${product.name} to cart`}
-                    >
-                      Add to Cart
-                    </button>
+                    {/* Product Meta */}
+                    <div className="mt-2 flex items-center justify-between">
+                      {product.category && (
+                        <span className="text-xs text-gray-500 uppercase tracking-wider">
+                          {product.category}
+                        </span>
+                      )}
+                      <button 
+                        className="opacity-0 group-hover:opacity-100 text-xs font-medium text-gray-900 hover:text-black transition-opacity duration-300"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          addItem({
+                            id: product.id.toString(),
+                            name: product.name,
+                            price: product.price,
+                            image: productImage ?? '/placeholder-product.jpg',
+                          });
+                        }}
+                        aria-label={`Add ${product.name} to cart`}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          ))}
+                </Link>
+              </div>
+            );
+          })}
         </div>
 
         {/* Load More Button with Animation */}
