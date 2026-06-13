@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Product } from '@/app/data/products';
+import { products } from '@/app/data/products';
 
 interface SearchResult {
   results: Product[];
@@ -14,7 +15,7 @@ export function useSearch(initialQuery = ''): SearchResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const search = async (searchQuery: string) => {
+  const search = (searchQuery: string) => {
     setQuery(searchQuery);
     
     if (!searchQuery.trim()) {
@@ -26,14 +27,17 @@ export function useSearch(initialQuery = ''): SearchResult {
     setError(null);
 
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
-      if (!response.ok) {
-        throw new Error('Search failed');
-      }
-      const data = await response.json();
-      setResults(data.results);
+      const queryLower = searchQuery.toLowerCase();
+      const filtered = products.filter(product => 
+        product.name.toLowerCase().includes(queryLower) ||
+        product.description?.toLowerCase().includes(queryLower) ||
+        product.brand?.toLowerCase().includes(queryLower) ||
+        product.category.toLowerCase().includes(queryLower)
+      ).slice(0, 5);
+      
+      setResults(filtered);
     } catch (err) {
-      setError('Failed to fetch search results');
+      setError('Failed to search products');
       console.error('Search error:', err);
     } finally {
       setLoading(false);
