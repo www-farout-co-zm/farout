@@ -6,7 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getAssetPath(path: string): string {
-  const isGithubPages = process.env.GITHUB_ACTIONS === "true";
-  const basePath = isGithubPages ? "/farout" : "";
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   return `${basePath}${path}`;
 }

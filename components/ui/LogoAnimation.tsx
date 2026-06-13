@@ -81,7 +81,8 @@ export default function LogoAnimation() {
             alt={`FAR OUT Logo ${index + 1}`}
             fill
             className="object-contain"
-            priority
+            priority={index === 0}
+            sizes="192px"
             onLoadingComplete={() => console.log(`Loaded frame ${index + 1}: ${src}`)}
             onError={(e) => console.error(`Error loading image ${src}:`, e)}
           />
