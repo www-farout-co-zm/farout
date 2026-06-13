@@ -1,3 +1,5 @@
+import { getAssetPath } from '@/lib/utils';
+
 export interface Product {
   id: number;
   name: string;
@@ -32,7 +34,7 @@ export const products: Product[] = [
     id: 1,
     name: 'Ngosa Skull Deck',
     price: 0, // Price removed as per user request
-    imageUrls: ['/ngosa-skull.jpg', '/ngosa-skull-front.jpg'],
+    imageUrls: [getAssetPath('/ngosa-skull.jpg'), getAssetPath('/ngosa-skull-front.jpg')],
     category: 'Decks',
     isNew: true,
     description: 'Limited edition deck featuring the iconic Ngosa Skull design',
@@ -45,7 +47,7 @@ export const products: Product[] = [
     id: 2,
     name: 'Psilocybin Deck',
     price: 0,
-    imageUrls: ['/psilocybin.jpg', '/psylocibin-front.jpg'],
+    imageUrls: [getAssetPath('/psilocybin.jpg'), getAssetPath('/psylocibin-front.jpg')],
     category: 'Decks',
     isNew: true,
     description: 'Psychedelic inspired design for the true visionary',
@@ -58,7 +60,7 @@ export const products: Product[] = [
     id: 3,
     name: 'Sakura Deck',
     price: 0,
-    imageUrls: ['/sakura.jpg', '/sakura-coming-soon.jpg', '/sakura-back.jpg'],
+    imageUrls: [getAssetPath('/sakura.jpg'), getAssetPath('/sakura-coming-soon.jpg'), getAssetPath('/sakura-back.jpg')],
     category: 'Decks',
     isNew: true,
     description: 'Cherry blossom design with Japanese inspiration',
@@ -67,13 +69,13 @@ export const products: Product[] = [
     status: 'Coming Soon',
     sizes: ['8.0"', '8.25"', '8.5"'],
     useImageViewer: true,
-    previewImage: '/sakura.jpg'
+    previewImage: getAssetPath('/sakura.jpg')
   },
   {
     id: 4,
     name: 'Stashman Blue Deck',
     price: 0,
-    imageUrls: ['/stashman-blue-nobutton.jpg', '/stashman-front.jpg'],
+    imageUrls: [getAssetPath('/stashman-blue-nobutton.jpg'), getAssetPath('/stashman-front.jpg')],
     category: 'Decks',
     isNew: true,
     description: 'Classic Stashman design in cool blue',
@@ -86,7 +88,7 @@ export const products: Product[] = [
     id: 5,
     name: 'Stashman Pink Deck',
     price: 0,
-    imageUrls: ['/stashman-pink-nobutton.jpg'],
+    imageUrls: [getAssetPath('/stashman-pink-nobutton.jpg')],
     category: 'Decks',
     isNew: true,
     description: 'Vibrant pink Stashman design',
@@ -99,7 +101,7 @@ export const products: Product[] = [
     id: 6,
     name: 'Stashman Purple Deck',
     price: 0,
-    imageUrls: ['/stashman-purple-nobuttons.jpg'],
+    imageUrls: [getAssetPath('/stashman-purple-nobuttons.jpg')],
     category: 'Decks',
     isNew: true,
     description: 'Deep purple Stashman design',
@@ -246,20 +248,20 @@ export const products: Product[] = [
     id: 18,
     name: 'Skate Tools',
     price: 0,
-    imageUrls: ['/skate-tools.jpg'],
+    imageUrls: [getAssetPath('/skate-tools.jpg')],
     category: 'Accessories',
     isNew: true,
     description: 'Essential tools for skateboard maintenance.',
     inStock: false,
     status: 'Out of Stock',
     useImageViewer: true,
-    previewImage: '/skate-tools.jpg'
+    previewImage: getAssetPath('/skate-tools.jpg')
   },
   {
     id: 19,
     name: 'Bearings',
     price: 0,
-    imageUrls: ['/bearings.jpg'],
+    imageUrls: [getAssetPath('/bearings.jpg')],
     category: 'Accessories',
     isNew: true,
     description: 'High-performance bearings for a smooth ride.',
@@ -270,7 +272,7 @@ export const products: Product[] = [
     id: 20,
     name: 'Grip Tape',
     price: 0,
-    imageUrls: ['/griptape.jpg'],
+    imageUrls: [getAssetPath('/griptape.jpg')],
     category: 'Accessories',
     isNew: true,
     description: 'Premium grip tape for ultimate board control.',
@@ -281,7 +283,7 @@ export const products: Product[] = [
     id: 21,
     name: 'Nuts and Bolts',
     price: 0,
-    imageUrls: ['/nuts-and-bolts.jpg'],
+    imageUrls: [getAssetPath('/nuts-and-bolts.jpg')],
     category: 'Accessories',
     isNew: true,
     description: 'Durable hardware for assembling your skateboard.',

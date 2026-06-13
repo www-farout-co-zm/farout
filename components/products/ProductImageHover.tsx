@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 interface ProductImageHoverProps {
   src: string;
@@ -45,7 +46,7 @@ export const ProductImageHover: React.FC<ProductImageHoverProps> = ({
         onMouseLeave={() => setIsHovered(false)}
       >
         <Image
-          src={isHovered ? '/sakura-coming-soon.jpg' : src}
+          src={isHovered ? getAssetPath('/sakura-coming-soon.jpg') : src}
           alt={alt}
           layout="fill"
           objectFit="contain"

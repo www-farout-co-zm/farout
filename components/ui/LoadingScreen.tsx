@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 const LoadingScreen = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -38,7 +39,7 @@ const LoadingScreen = () => {
         onClick={handleClick}
       >
         <Image
-          src="/farout-loading.jpg"
+          src={getAssetPath('/farout-loading.jpg')}
           alt="FAR OUT Loading Screen"
           fill
           className="object-contain"

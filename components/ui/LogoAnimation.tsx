@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 export default function LogoAnimation() {
   const [currentFrame, setCurrentFrame] = useState(0);
@@ -11,15 +12,15 @@ export default function LogoAnimation() {
 
   // Array of logo image paths - updated to include all 9 variations
   const logoFrames = useMemo(() => [
-    '/logo-color-1.jpg',
-    '/logo-color-2.jpg',
-    '/logo-color-3.jpg',
-    '/logo-color-4.jpg',
-    '/logo-color-5.jpg',
-    '/logo-color-6.jpg',
-    '/logo-color-7.jpg',
-    '/logo-color-8.jpg',
-    '/logo-color-9.jpg',
+    getAssetPath('/logo-color-1.jpg'),
+    getAssetPath('/logo-color-2.jpg'),
+    getAssetPath('/logo-color-3.jpg'),
+    getAssetPath('/logo-color-4.jpg'),
+    getAssetPath('/logo-color-5.jpg'),
+    getAssetPath('/logo-color-6.jpg'),
+    getAssetPath('/logo-color-7.jpg'),
+    getAssetPath('/logo-color-8.jpg'),
+    getAssetPath('/logo-color-9.jpg'),
   ], []);
 
   // Log when component mounts and unmounts
