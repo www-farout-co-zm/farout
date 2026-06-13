@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { paymentSchema, type PaymentFormValues } from '@/lib/validations';
 
 interface PaymentFormProps {
-  onPaymentComplete: (paymentData: { cardNumber: string; expiryDate: string; cvv: string; cardholderName: string }) => void;
+  onPaymentComplete: (paymentData: PaymentFormValues) => void;
   isProcessing: boolean;
 }
 
@@ -14,20 +15,39 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   onPaymentComplete,
   isProcessing,
 }) => {
-  const [paymentDetails, setPaymentDetails] = React.useState({
+  const [paymentDetails, setPaymentDetails] = React.useState<PaymentFormValues>({
     cardNumber: '',
     expiryDate: '',
     cvv: '',
     cardholderName: '',
   });
+  const [errors, setErrors] = React.useState<Partial<Record<keyof PaymentFormValues, string>>>({});
 
   const handlePaymentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPaymentDetails((prev) => ({ ...prev, [name]: value }));
+    // Clear error for this field when user starts typing
+    if (errors[name as keyof PaymentFormValues]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    const result = paymentSchema.safeParse(paymentDetails);
+    
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof PaymentFormValues, string>> = {};
+      result.error.errors.forEach((error) => {
+        const field = error.path[0] as keyof PaymentFormValues;
+        fieldErrors[field] = error.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    
     onPaymentComplete(paymentDetails);
   };
 
@@ -43,8 +63,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           required
           value={paymentDetails.cardNumber}
           onChange={handlePaymentInputChange}
-          className="w-full p-2 border rounded"
+          className={`w-full p-2 border rounded ${errors.cardNumber ? 'border-red-500' : ''}`}
         />
+        {errors.cardNumber && <p className="text-red-500 text-sm mt-1">{errors.cardNumber}</p>}
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -56,8 +77,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             required
             value={paymentDetails.expiryDate}
             onChange={handlePaymentInputChange}
-            className="w-full p-2 border rounded"
+            className={`w-full p-2 border rounded ${errors.expiryDate ? 'border-red-500' : ''}`}
           />
+          {errors.expiryDate && <p className="text-red-500 text-sm mt-1">{errors.expiryDate}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">CVV</label>
@@ -68,8 +90,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             required
             value={paymentDetails.cvv}
             onChange={handlePaymentInputChange}
-            className="w-full p-2 border rounded"
+            className={`w-full p-2 border rounded ${errors.cvv ? 'border-red-500' : ''}`}
           />
+          {errors.cvv && <p className="text-red-500 text-sm mt-1">{errors.cvv}</p>}
         </div>
       </div>
       <div>
@@ -81,8 +104,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           required
           value={paymentDetails.cardholderName}
           onChange={handlePaymentInputChange}
-          className="w-full p-2 border rounded"
+          className={`w-full p-2 border rounded ${errors.cardholderName ? 'border-red-500' : ''}`}
         />
+        {errors.cardholderName && <p className="text-red-500 text-sm mt-1">{errors.cardholderName}</p>}
       </div>
       <div className="flex justify-between">
         {/* Back button is handled by parent component */}

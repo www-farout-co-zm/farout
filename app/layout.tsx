@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
-import dynamic from 'next/dynamic';
 
-// Import the LoadingScreen component as a client component
-import LoadingScreen from "@/app/components/ui/LoadingScreen";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import { Header } from "@/components/Header";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -57,10 +56,19 @@ function RootLayoutContent({
 }>) {
   return (
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 transition-colors">
         <Providers>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:dark:bg-zinc-900 focus:text-black focus:dark:text-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg"
+          >
+            Skip to content
+          </a>
           <LoadingScreen />
-          {children}
+          <Header />
+          <main id="main-content" className="flex-grow">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

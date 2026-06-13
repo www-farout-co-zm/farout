@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ProductCard } from '@/app/components/products/ProductCard';
+import { ProductCard } from '@/components/products/ProductCard';
 import { Product } from '@/app/data/products';
 
 interface ProductPageContentProps {
@@ -98,7 +98,7 @@ export function ProductPageContent({ product, relatedProducts }: ProductPageCont
               {product.inStock ? (
                 <Button asChild className="w-full py-6 text-base font-medium">
                   <a 
-                    href={`https://wa.me/1234567890?text=I'm interested in your ${product.name} product.`} 
+                    href={`https://wa.me/260972662120?text=I'm interested in your ${product.name} product.`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                   >

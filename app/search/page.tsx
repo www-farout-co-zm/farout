@@ -3,8 +3,8 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Product } from '@/app/data/products';
-import { ProductCard } from '@/app/components/products/ProductCard';
-import { Button } from '@/app/components/ui/button';
+import { ProductCard } from '@/components/products/ProductCard';
+import { Button } from '@/components/ui/button';
 import { SearchBar } from '@/components/search/SearchBar';
 
 export default function SearchPage() {

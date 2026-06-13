@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { ProductImageHover } from './ProductImageHover';
 import { Product } from '@/app/data/products';
-import ImageViewer from '@/app/components/ui/ImageViewer';
+import ImageViewer from '@/components/ui/ImageViewer';
 
 interface ProductCardProps {
   product: Product;
@@ -19,7 +19,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (product.colors && product.colors.length > 0 && [4, 5, 6].includes(product.id)) {
+    if (product.colors && product.colors.length > 0) {
       setSelectedColor(product.colors[0]);
     }
   }, [product]);
@@ -29,14 +29,14 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleContactWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const whatsappNumber = '+1234567890'; // Replace with your WhatsApp Business number
+    const whatsappNumber = '+260972662120';
     const message = `Hi, I'm interested in the ${product.name} (Product ID: ${product.id}). Is it available?`;
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   const handleImageClick = (e: React.MouseEvent) => {
-    if (product.id === 3 || product.id === 18) { 
+    if (product.useImageViewer) { 
       setIsViewerOpen(true);
     }
   };
@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative">
-        {product.id === 3 ? (
+        {product.useImageViewer ? (
           <div
             className="block cursor-pointer"
             aria-label={`View ${product.name}`}
@@ -59,7 +59,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <ProductImageHover
                   src={product.imageUrls[0]}
                   alt={product.name}
-                  isSakura={product.id === 3}
+                  isSakura={product.useImageViewer}
                   selectedColor={selectedColor}
                   productId={product.id}
                 />
@@ -81,7 +81,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <ProductImageHover
                   src={product.imageUrls[0]}
                   alt={product.name}
-                  isSakura={product.id === 3}
+                  isSakura={product.useImageViewer}
                   selectedColor={selectedColor}
                   productId={product.id}
                 />
@@ -129,12 +129,12 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {isViewerOpen && (
         <ImageViewer
-          src={product.id === 3 ? "/sakura.jpg" : product.id === 18 ? "/skate-tools.jpg" : ""} // Use specific image for Skate Tools
+          src={product.previewImage || ""}
           alt={`${product.name} - Full View`}
           isOpen={isViewerOpen}
           onClose={() => setIsViewerOpen(false)}
-          title={product.name} // Pass product name as title
-          status={product.id === 18 ? "OUT OF STOCK" : product.id === 3 ? "COMING SOON" : ""} // Pass specific status for Skate Tools
+          title={product.name}
+          status={product.status || ""}
         />
       )}
     </div>

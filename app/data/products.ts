@@ -11,6 +11,8 @@ export interface Product {
   sizes?: string[];
   colors?: string[];
   status?: 'Out of Stock' | 'Coming Soon';
+  useImageViewer?: boolean;
+  previewImage?: string;
 }
 
 export const categories = [
@@ -73,7 +75,9 @@ export const products: Product[] = [
     brand: 'FAR OUT',
     inStock: false,
     status: 'Coming Soon',
-    sizes: ['8.0"', '8.25"', '8.5"']
+    sizes: ['8.0"', '8.25"', '8.5"'],
+    useImageViewer: true,
+    previewImage: '/sakura.jpg'
   },
   {
     id: 4,
@@ -118,7 +122,7 @@ export const products: Product[] = [
   
   // Trucks
   {
-    id: 5,
+    id: 7,
     name: 'Pro Skateboard Trucks',
     price: 49.99,
     imageUrls: ['/placeholder-trucks.jpg'],
@@ -130,7 +134,7 @@ export const products: Product[] = [
     sizes: ['139mm', '149mm', '159mm']
   },
   {
-    id: 10,
+    id: 8,
     name: 'Street Trucks - Silver',
     price: 44.99,
     imageUrls: ['/placeholder-trucks-silver.jpg'],
@@ -144,7 +148,7 @@ export const products: Product[] = [
 
   // Wheels
   {
-    id: 17,
+    id: 9,
     name: 'Skate Wheels - 54mm',
     price: 39.99,
     imageUrls: ['/placeholder-wheels.jpg'],
@@ -156,7 +160,7 @@ export const products: Product[] = [
     sizes: ['52mm', '54mm', '56mm']
   },
   {
-    id: 11,
+    id: 10,
     name: 'Soft Wheels - 60mm',
     price: 44.99,
     imageUrls: ['/placeholder-wheels-soft.jpg'],
@@ -170,7 +174,7 @@ export const products: Product[] = [
 
   // Hardware
   {
-    id: 8,
+    id: 11,
     name: 'Skate Tool',
     price: 19.99,
     imageUrls: ['/placeholder-tool.jpg'],
@@ -194,7 +198,7 @@ export const products: Product[] = [
 
   // Apparel
   {
-    id: 2,
+    id: 13,
     name: 'Graphic Tee - White',
     price: 29.99,
     imageUrls: ['/placeholder-tee.jpg'],
@@ -207,7 +211,7 @@ export const products: Product[] = [
     colors: ['White', 'Black', 'Gray']
   },
   {
-    id: 13,
+    id: 14,
     name: 'Hoodie - Black',
     price: 59.99,
     imageUrls: ['/placeholder-hoodie.jpg'],
@@ -222,7 +226,7 @@ export const products: Product[] = [
 
   // Footwear
   {
-    id: 7,
+    id: 15,
     name: 'Skate Shoes - Black/White',
     price: 79.99,
     imageUrls: ['/placeholder-shoes.jpg'],
@@ -235,7 +239,7 @@ export const products: Product[] = [
     colors: ['Black/White', 'All Black', 'Navy/White']
   },
   {
-    id: 14,
+    id: 16,
     name: 'High-Top Skate Shoes',
     price: 89.99,
     imageUrls: ['/placeholder-shoes-high.jpg'],
@@ -258,6 +262,8 @@ export const products: Product[] = [
     description: 'Essential tools for skateboard maintenance.',
     inStock: false,
     status: 'Out of Stock',
+    useImageViewer: true,
+    previewImage: '/skate-tools.jpg'
   },
   {
     id: 19,

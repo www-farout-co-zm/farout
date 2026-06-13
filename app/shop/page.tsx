@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { products, getProductsByCategory } from '../data/products';
+import { useCart } from '@/contexts/CartContext';
 
 const categories = [
   { name: 'ALL', slug: 'all' },
@@ -15,18 +16,58 @@ const categories = [
   { name: 'ACCESSORIES', slug: 'accessories' },
 ];
 
+const sortOptions = [
+  { name: 'Featured', value: 'featured' },
+  { name: 'Price: Low to High', value: 'price-asc' },
+  { name: 'Price: High to Low', value: 'price-desc' },
+  { name: 'Name: A-Z', value: 'name-asc' },
+  { name: 'Name: Z-A', value: 'name-desc' },
+  { name: 'Newest', value: 'newest' },
+];
+
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('featured');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { addItem } = useCart();
   
-  // Filter products by category
+  // Filter and sort products
   const filteredProducts = useMemo(() => {
-    return getProductsByCategory(selectedCategory);
-  }, [selectedCategory]);
+    let result = getProductsByCategory(selectedCategory);
+    
+    // Apply search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (product) =>
+          product.name.toLowerCase().includes(query) ||
+          product.brand?.toLowerCase().includes(query) ||
+          product.category?.toLowerCase().includes(query) ||
+          product.description?.toLowerCase().includes(query)
+      );
+    }
+    
+    // Apply sorting
+    switch (sortBy) {
+      case 'price-asc':
+        return [...result].sort((a, b) => a.price - b.price);
+      case 'price-desc':
+        return [...result].sort((a, b) => b.price - a.price);
+      case 'name-asc':
+        return [...result].sort((a, b) => a.name.localeCompare(b.name));
+      case 'name-desc':
+        return [...result].sort((a, b) => b.name.localeCompare(a.name));
+      case 'newest':
+        return [...result].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+      default:
+        return result;
+    }
+  }, [selectedCategory, sortBy, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors">
       {/* Category Filter */}
-      <div className="bg-black text-white py-4 px-4 md:px-8">
+      <div className="bg-black dark:bg-zinc-900 text-white py-4 px-4 md:px-8 sticky top-16 z-40 transition-colors">
         <div className="container mx-auto">
           <div className="flex flex-wrap gap-4 md:gap-8 justify-center md:justify-start">
             {categories.map((category) => (
@@ -48,25 +89,34 @@ export default function ShopPage() {
 
       {/* Products Grid */}
       <div className="container mx-auto px-4 py-8">
+        {/* Search and Filter Bar */}
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+          />
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+          >
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Product Count */}
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-sm text-gray-600">
+        <div className="mb-6">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {filteredProducts.length} {filteredProducts.length === 1 ? 'ITEM' : 'ITEMS'}
+            {searchQuery && ` matching "${searchQuery}"`}
           </p>
-          <div className="hidden md:flex items-center space-x-4">
-            <span className="text-sm text-gray-600">SORT</span>
-            <select 
-              className="bg-transparent border-0 text-sm focus:ring-0"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              {categories.map((category) => (
-                <option key={category.slug} value={category.slug}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
 
         {/* Products */}
@@ -98,26 +148,12 @@ export default function ShopPage() {
                     )}
                   </div>
                   {/* Hover overlay with quick view */}
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button 
-                      className="bg-white text-black px-4 py-2 text-xs font-medium tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('Quick view:', product.id);
-                      }}
-                    >
-                      Quick View
-                    </button>
-                  </div>
-                  {/* Quick View Button */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <button 
                       className="bg-white text-black px-4 py-2 text-xs font-medium tracking-wider uppercase"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        // Add quick view functionality here
                         console.log('Quick view:', product.id);
                       }}
                     >
@@ -157,11 +193,16 @@ export default function ShopPage() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        // Add to cart functionality
-                        console.log('Add to cart:', product.id);
+                        addItem({
+                          id: product.id,
+                          name: product.name,
+                          price: product.price,
+                          image: product.imageUrls?.[0],
+                        });
                       }}
+                      aria-label={`Add ${product.name} to cart`}
                     >
-
+                      Add to Cart
                     </button>
                   </div>
                 </div>
